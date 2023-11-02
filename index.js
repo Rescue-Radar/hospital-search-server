@@ -31,7 +31,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const dotenv = __importStar(require("dotenv"));
-dotenv.config({ path: `${__dirname}/.env` });
+dotenv.config({ path: `${__dirname}/config.env` });
 const port = process.env.PORT || 5000;
 //handle uncaught err
 // process.on("uncaughtException", function (err) {
@@ -65,5 +65,5 @@ app.get("*", (req, res) => {
     res.status(404).json({ message: "Route not found" });
 });
 app.listen(port, () => {
-    console.log(`server is running at port ${port} `);
+    console.log(`server is running at port ${port}`);
 });

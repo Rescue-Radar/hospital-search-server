@@ -48,18 +48,30 @@ function findAndAddUser(req, res, next) {
                     throw new Error("JWT_SECRET is not defined");
                 }
                 else {
-                    const payload = jwt.verify(token, secret);
-                    console.log(payload);
-                    if (payload) {
-                        const id = payload.userId;
-                        const result = yield (0, requestQueries_1.isExistingPatient)(id);
-                        const user = result.rows[0];
-                        if (user) {
-                            req.body.userId = id;
-                            next();
+                    try {
+                        const payload = jwt.verify(token, secret);
+                        if (payload) {
+                            const id = payload.userId;
+                            const result = yield (0, requestQueries_1.isExistingPatient)(id);
+                            const user = result.rows[0];
+                            if (user) {
+                                req.body.userId = id;
+                                next();
+                            }
+                            else {
+                                res.status(401).json("unauthorized");
+                            }
+                        }
+                    }
+                    catch (error) {
+                        console.log(error);
+                        if (error.name === "TokenExpiredError") {
+                            // Handle the expired JWT error
+                            res.status(401).json({ error: "JWT token has expired" });
                         }
                         else {
-                            res.status(401).json("unauthorized");
+                            // Handle other JWT verification errors
+                            res.status(401).json({ error: "JWT verification failed" });
                         }
                     }
                 }
@@ -69,7 +81,7 @@ function findAndAddUser(req, res, next) {
             }
         }
         catch (error) {
-            // Handle the error and return a response
+            // Handle other errors
             res.status(401).json({ error: "Internal server Error" });
         }
     });
