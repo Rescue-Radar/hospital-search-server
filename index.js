@@ -37,6 +37,7 @@ const port = process.env.PORT || 5000;
 // process.on("uncaughtException", function (err) {
 //   console.log(`uncaughterror-> ${err}`);
 // });
+const requestRoutes_1 = __importDefault(require("./src/routes/requestRoutes"));
 const app = (0, express_1.default)();
 // Allow requests from http://localhost:5173
 app.use(cors({
@@ -50,6 +51,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 // app.use(cors());
 app.use(cookieParser());
+app.use("/api", requestRoutes_1.default);
 app.get("/", (req, res) => {
     const CurrentDateTime = new Date().toLocaleString();
     res.status(200).json({
