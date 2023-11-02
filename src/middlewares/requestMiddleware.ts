@@ -1,10 +1,6 @@
-import { Request, Response } from "express";
+import { Request, Response ,NextFunction} from "express";
 import * as jwt from "jsonwebtoken";
-import { promisify } from "util";
-//import { signupService } from "../service/auth.hospital";
-import { NextFunction } from "express-serve-static-core";
 import { isExistingPatient } from "../queries/requestQueries";
-//import { isHospitalExistusingId } from "../queries/auth.hospital";
 import { JwtPayload } from "../interfaces/requests.auth";
 import * as dotenv from "dotenv";
 dotenv.config({ path: `${__dirname}/.env` });
@@ -34,9 +30,11 @@ export async function findAndAddUser(
 					req.body.userId = id;
 					next();
 				} else {
-					res.status(401).json("unauthorized");
+					res.status(401).json("user Does not Exist");
 				}
 				   
+				}else{
+					res.status(401).json("unauthorized");
 				}
 			}
 

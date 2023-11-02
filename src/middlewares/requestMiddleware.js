@@ -59,8 +59,11 @@ function findAndAddUser(req, res, next) {
                             next();
                         }
                         else {
-                            res.status(401).json("unauthorized");
+                            res.status(401).json("user Does not Exist");
                         }
+                    }
+                    else {
+                        res.status(401).json("unauthorized");
                     }
                 }
             }
