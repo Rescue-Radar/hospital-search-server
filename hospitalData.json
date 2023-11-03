@@ -1,0 +1,259 @@
+{
+    "phoneNumber": 9876543210,
+    "name": "Hospital A",
+    "email": "unique_email_1@gmail.com",
+    "password": "password1",
+    "licenseId": "XYZ123",
+    "capacity": 100,
+    "latitude": 12.896840279739067,
+    "longitude": 80.21888998384551,
+    "address": "123 Main Street, Cityville",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543211,
+    "name": "Hospital B",
+    "email": "unique_email_2@gmail.com",
+    "password": "password2",
+    "licenseId": "XYZ124",
+    "capacity": 100,
+    "latitude": 12.902165313341765,
+    "longitude": 80.2245265987614,
+    "address": "456 Elm Street, Townsville",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543212,
+    "name": "Hospital C",
+    "email": "unique_email_3@gmail.com",
+    "password": "password3",
+    "licenseId": "XYZ125",
+    "capacity": 100,
+    "latitude": 12.900788156238752,
+    "longitude": 80.22085865648873,
+    "address": "789 Oak Street, Villagetown",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543213,
+    "name": "Hospital D",
+    "email": "unique_email_4@gmail.com",
+    "password": "password4",
+    "licenseId": "XYZ126",
+    "capacity": 100,
+    "latitude": 12.899346270568812,
+    "longitude": 80.2265321440575,
+    "address": "101 Pine Street, Hamletville",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543214,
+    "name": "Hospital E",
+    "email": "unique_email_5@gmail.com",
+    "password": "password5",
+    "licenseId": "XYZ127",
+    "capacity": 100,
+    "latitude": 12.898174726775154,
+    "longitude": 80.21822329400236,
+    "address": "222 Cedar Street, Countryside",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543215,
+    "name": "Hospital F",
+    "email": "unique_email_6@gmail.com",
+    "password": "password6",
+    "licenseId": "XYZ128",
+    "capacity": 100,
+    "latitude": 12.899564942653984,
+    "longitude": 80.22410447644864,
+    "address": "333 Birch Street, Suburbia",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543216,
+    "name": "Hospital G",
+    "email": "unique_email_7@gmail.com",
+    "password": "password7",
+    "licenseId": "XYZ129",
+    "capacity": 100,
+    "latitude": 12.901127583445506,
+    "longitude": 80.22122319374033,
+    "address": "444 Maple Street, Urbanville",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543217,
+    "name": "Hospital H",
+    "email": "unique_email_8@gmail.com",
+    "password": "password8",
+    "licenseId": "XYZ130",
+    "capacity": 100,
+    "latitude": 12.901246446579316,
+    "longitude": 80.22623681981522,
+    "address": "555 Willow Street, Metrocity",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543218,
+    "name": "Hospital I",
+    "email": "unique_email_9@gmail.com",
+    "password": "password9",
+    "licenseId": "XYZ131",
+    "capacity": 100,
+    "latitude": 12.900911747767396,
+    "longitude": 80.22025853127632,
+    "address": "666 Spruce Street, Megatown",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543219,
+    "name": "Hospital J",
+    "email": "unique_email_10@gmail.com",
+    "password": "password10",
+    "licenseId": "XYZ132",
+    "capacity": 100,
+    "latitude": 12.897608548380045,
+    "longitude": 80.22142504528769,
+    "address": "777 Fir Street, Megaville",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543220,
+    "name": "Hospital K",
+    "email": "unique_email_11@gmail.com",
+    "password": "password11",
+    "licenseId": "XYZ133",
+    "capacity": 100,
+    "latitude": 12.9004514987492,
+    "longitude": 80.22668950736365,
+    "address": "888 Redwood Street, Gigacity",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543221,
+    "name": "Hospital L",
+    "email": "unique_email_12@gmail.com",
+    "password": "password12",
+    "licenseId": "XYZ134",
+    "capacity": 100,
+    "latitude": 12.8985311406697,
+    "longitude": 80.22547022419605,
+    "address": "999 Sequoia Street, Ultratropolis",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543222,
+    "name": "Hospital M",
+    "email": "unique_email_13@gmail.com",
+    "password": "password13",
+    "licenseId": "XYZ135",
+    "capacity": 100,
+    "latitude": 12.899283619379003,
+    "longitude": 80.22656550525362,
+    "address": "123 Oak Street, Medicalville",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543223,
+    "name": "Hospital N",
+    "email": "unique_email_14@gmail.com",
+    "password": "password14",
+    "licenseId": "XYZ136",
+    "capacity": 100,
+    "latitude": 12.900988138857175,
+    "longitude": 80.2196512083925,
+    "address": "456 Maple Street, Healthytown",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543224,
+    "name": "Hospital O",
+    "email": "unique_email_15@gmail.com",
+    "password": "password15",
+    "licenseId": "XYZ137",
+    "capacity": 100,
+    "latitude": 12.9012745482125,
+    "longitude": 80.22551871589487,
+    "address": "789 Willow Street, Wellnessville",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543225,
+    "name": "Hospital P",
+    "email": "unique_email_16@gmail.com",
+    "password": "password16",
+    "licenseId": "XYZ138",
+    "capacity": 100,
+    "latitude": 12.898215979767258,
+    "longitude": 80.2261881526735,
+    "address": "101 Cedar Street, Lifetown",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543226,
+    "name": "Hospital Q",
+    "email": "unique_email_17@gmail.com",
+    "password": "password17",
+    "licenseId": "XYZ139",
+    "capacity": 100,
+    "latitude": 12.89894945421472,
+    "longitude": 80.22421248436044,
+    "address": "222 Fir Street, Healthcity",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543227,
+    "name": "Hospital R",
+    "email": "unique_email_18@gmail.com",
+    "password": "password18",
+    "licenseId": "XYZ140",
+    "capacity": 100,
+    "latitude": 12.897661861254365,
+    "longitude": 80.22699037377336,
+    "address": "333 Redwood Street, Wellvillage",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543228,
+    "name": "Hospital S",
+    "email": "unique_email_19@gmail.com",
+    "password": "password19",
+    "licenseId": "XYZ141",
+    "capacity": 100,
+    "latitude": 12.901157865263695,
+    "longitude": 80.22674046800022,
+    "address": "444 Sequoia Street, Healthhaven",
+    "status": "available"
+}
+
+{
+    "phoneNumber": 9876543229,
+    "name": "Hospital T",
+    "email": "unique_email_20@gmail.com",
+    "password": "password20",
+    "licenseId": "XYZ142",
+    "capacity": 100,
+    "latitude": 12.900159185741096,
+    "longitude": 80.21979963123714,
+    "address": "555 Oak Street, Lifeville",
+    "status": "available"
+}

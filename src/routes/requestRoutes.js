@@ -10,6 +10,4 @@ const requestController_1 = __importDefault(require("../controllers/requestContr
 const requesUser = new requestController_1.default();
 const router = express_1.default.Router();
 router.post("/request", requestMiddleware_1.findAndAddUser, requesUser.searchHospitalsList);
-router.get("/request", requestMiddleware_1.findAndAddUser);
-router.get("/hospital");
 exports.default = router;

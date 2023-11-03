@@ -36,7 +36,9 @@ exports.RequestService = void 0;
 const requestQueries_1 = require("../queries/requestQueries");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: `${__dirname}/.env` });
+const uuid_1 = require("uuid");
 function calculateDistance(lat1, lon1, lat2, lon2) {
+    // console.log("lat1->",lat1,"lon1->",lon1,"lat2->",lat2,"lon2->",lon2);
     const R = 6371; // Radius of the Earth in kilometers
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
@@ -55,32 +57,40 @@ function deg2rad(deg) {
 class RequestService {
     constructor() {
         this.searchHospitals = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            const { name, phoneNumber, latitude, longitude } = req.body;
-            const maxRadius = 100;
+            const { name, phoneNumber, latitude, longitude, userId } = req.body;
+            const maxRadius = 50;
             let radius = 5; // Starting search radius in kilometers
             let filteredHospitals;
             if (!latitude || !longitude || !maxRadius) {
                 return res.status(400).json({ error: "Missing required parameters" });
             }
             const findHospitals = () => __awaiter(this, void 0, void 0, function* () {
-                const hospitals = yield (0, requestQueries_1.fetchHospitals)();
-                console.log(hospitals);
-                //   filteredHospitals = hospitals.filter((hospital) => {
-                //     const distance = calculateDistance(
-                //       latitude,
-                //       longitude,
-                //       hospital.lat,
-                //       hospital.lng
-                //     );
-                //     return distance <= radius;
-                //   });
-                //   if (filteredHospitals.length === 0 && radius < maxRadius) {
-                //     // If no hospitals found and radius is less than max, increase radius
-                //     radius += 10; // You can adjust the increment value as needed
-                //     setTimeout(findHospitals, 30000); // Retry after a timeout
-                //   } else {
-                //     res.json({ hospitals: filteredHospitals });
-                //   }
+                const hospitalResponse = yield (0, requestQueries_1.fetchHospitals)();
+                const hospitals = hospitalResponse.rows;
+                //   console.log("hospitals->",hospitals);
+                filteredHospitals = hospitals.filter((hospital) => {
+                    const distance = calculateDistance(latitude, longitude, hospital.latitude, hospital.longitude);
+                    return distance <= radius;
+                });
+                //   insert into ticket_issue table 
+                filteredHospitals.forEach((element) => __awaiter(this, void 0, void 0, function* () {
+                    const id = (0, uuid_1.v4)();
+                    const timeStampe = new Date().toLocaleString();
+                    const response = yield (0, requestQueries_1.insertIntoTicketIssue)(id, name, phoneNumber, element.id, userId, false, timeStampe, latitude, longitude);
+                }));
+                //   console.log(filteredHospitals.length,"filtered->",filteredHospitals);
+                if (filteredHospitals.length === 0 && radius >= maxRadius) {
+                    // If no hospitals found and radius is greater than max, return error
+                    res.status(400).json({ error: "No hospitals found" });
+                }
+                else if (radius < maxRadius) {
+                    // If no hospitals found and radius is less than max, increase radius
+                    radius += 10; // You can adjust the increment value as needed
+                    setTimeout(findHospitals, 30000); // Retry after a timeout
+                }
+                else {
+                    res.json({ hospitals: filteredHospitals });
+                }
             });
             findHospitals();
         });
