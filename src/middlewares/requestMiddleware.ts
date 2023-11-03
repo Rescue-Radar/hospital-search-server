@@ -106,6 +106,7 @@ export async function authenticateHospital(
 				console.log("hospital payload->", payload);
 				if (payload) {
 					const id = payload.userId;
+					console.log(id);
 					const result = await isExistingHospital(id);
 
 					const user = result.rows[0];

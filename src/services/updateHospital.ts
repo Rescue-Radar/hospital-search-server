@@ -64,10 +64,10 @@ const io = new Server(node_server, {
   // yourNamespace.setMaxListeners(20);
   
   io.of("/requestPatient").on("connection", async (socket: any) => {
-    socket.setMaxListeners(20);
+    socket.setMaxListeners(30);
     console.log("a user connected");
     dbClient.on("notification", async (msg: any) => {
-      console.log("Received notification:", msg.payload);
+      // console.log("Received notification:", msg.payload);
   
       const response = await fetchTicketIssue();
       const result = response.rows;

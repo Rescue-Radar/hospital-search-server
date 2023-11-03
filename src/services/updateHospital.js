@@ -81,10 +81,10 @@ dbClient.query(`LISTEN ${channelName}`);
 // const yourNamespace = io.of("/requestPatient");
 // yourNamespace.setMaxListeners(20);
 io.of("/requestPatient").on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
-    socket.setMaxListeners(20);
+    socket.setMaxListeners(30);
     console.log("a user connected");
     dbClient.on("notification", (msg) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("Received notification:", msg.payload);
+        // console.log("Received notification:", msg.payload);
         const response = yield (0, requestQueries_1.fetchTicketIssue)();
         const result = response.rows;
         socket.emit("updateHospital", result);

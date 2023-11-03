@@ -36,6 +36,7 @@ exports.RequestService = void 0;
 const requestQueries_1 = require("../queries/requestQueries");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: `${__dirname}/.env` });
+const uuid_1 = require("uuid");
 function calculateDistance(lat1, lon1, lat2, lon2) {
     // console.log("lat1->",lat1,"lon1->",lon1,"lat2->",lat2,"lon2->",lon2);
     const R = 6371; // Radius of the Earth in kilometers
@@ -64,84 +65,82 @@ class RequestService {
                 return res.status(400).json({ error: "Missing required parameters" });
             }
             const findHospitals = () => __awaiter(this, void 0, void 0, function* () {
-                const hospitals = yield (0, requestQueries_1.fetchHospitals)();
-                console.log(hospitals);
-                //   filteredHospitals = hospitals.filter((hospital) => {
-                //     const distance = calculateDistance(
-                //       latitude,
-                //       longitude,
-                //       hospital.lat,
-                //       hospital.lng
-                //     );
-                //     return distance <= radius;
-                //   });
-                //   if (filteredHospitals.length === 0 && radius < maxRadius) {
-                //     // If no hospitals found and radius is less than max, increase radius
-                //     radius += 10; // You can adjust the increment value as needed
-                //     setTimeout(findHospitals, 30000); // Retry after a timeout
-                //   } else {
-                //     res.json({ hospitals: filteredHospitals });
-                //   }
+                const hospitalResponse = yield (0, requestQueries_1.fetchHospitals)();
+                const hospitals = hospitalResponse.rows;
+                //   console.log("hospitals->",hospitals);
+                filteredHospitals = hospitals.filter((hospital) => {
+                    const distance = calculateDistance(latitude, longitude, hospital.latitude, hospital.longitude);
+                    return distance <= radius;
+                });
+                //   insert into ticket_issue table 
+                filteredHospitals.forEach((element) => __awaiter(this, void 0, void 0, function* () {
+                    const id = (0, uuid_1.v4)();
+                    const timeStampe = new Date().toLocaleString();
+                    const acceptCase = false;
+                    const rejectCase = false;
+                    const response = yield (0, requestQueries_1.insertIntoTicketIssue)(id, name, phoneNumber, element.id, userId, false, timeStampe, latitude, longitude, acceptCase, rejectCase);
+                }));
+                //   console.log(filteredHospitals.length,"filtered->",filteredHospitals);
+                if (filteredHospitals.length === 0 && radius >= maxRadius) {
+                    // If no hospitals found and radius is greater than max, return error
+                    res.status(400).json({ error: "No hospitals found" });
+                }
+                else if (radius < maxRadius) {
+                    // If no hospitals found and radius is less than max, increase radius
+                    radius += 10; // You can adjust the increment value as needed
+                    setTimeout(findHospitals, 30000); // Retry after a timeout
+                }
+                else {
+                    res.json({ hospitals: filteredHospitals });
+                }
             });
             findHospitals();
         });
         this.acceptUserCase = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            if (!req.body || !req.body.hospitalId || !req.body.userId) {
+            if (!req.body || !req.body.hospitalId || !req.body.patientId) {
                 return res.status(400).json({
                     error: '"UserId" and "HospitalId" are required!',
                 });
             }
-            try {
-                const hospitalId = req.body.hospitalId;
-                const userId = req.body.userId;
-                // Call your function to fetch the case from the database
-                const caseData = JSON.parse(JSON.stringify(yield (0, requestQueries_1.fetchCase)(hospitalId, userId)));
-                if (caseData) {
-                    if (caseData.status) {
-                        return res.status(404).json({
-                            error: "Case already accepted",
-                        });
-                    }
-                    yield (0, requestQueries_1.setStatus)(userId);
-                    yield (0, requestQueries_1.setAccepted)(hospitalId, userId);
-                    res.status(200).json({
-                        message: "case accepted",
-                        caseDetails: caseData,
+            const hospitalId = req.body.hospitalId;
+            const patientId = req.body.patientId;
+            // Call your function to fetch the case from the database
+            const caseData = JSON.parse(JSON.stringify(yield (0, requestQueries_1.fetchCase)(hospitalId, patientId)));
+            if (caseData) {
+                if (caseData.status) {
+                    return res.status(404).json({
+                        error: "Case already accepted",
                     });
                 }
-                else {
-                    return res.status(404).json({ error: "Case not found" });
-                }
+                yield (0, requestQueries_1.setStatus)(patientId);
+                yield (0, requestQueries_1.setAccepted)(hospitalId, patientId);
+                res.status(200).json({
+                    message: "case accepted",
+                    caseDetails: caseData.rows[0],
+                });
             }
-            catch (error) {
-                console.error("Error accepting user case:", error);
-                return res.status(500).json({ error: "Internal server error" });
+            else {
+                return res.status(404).json({ error: "Case not found" });
             }
         });
         this.rejectUserCase = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            if (!req.body || !req.body.hospitalId || !req.body.userId) {
+            if (!req.body || !req.body.hospitalId || !req.body.patientId) {
                 return res.status(400).json({
                     error: '"UserId" and "HospitalId" are required!',
                 });
             }
-            try {
-                const hospitalId = req.body.hospitalId;
-                const userId = req.body.userId;
-                // Call your function to fetch the case from the database
-                const caseData = JSON.parse(JSON.stringify(yield (0, requestQueries_1.fetchCase)(hospitalId, userId)));
-                if (caseData) {
-                    yield (0, requestQueries_1.setRejected)(hospitalId, userId);
-                    res.status(200).json({
-                        message: "case rejected",
-                    });
-                }
-                else {
-                    return res.status(404).json({ error: "Case not found" });
-                }
+            const hospitalId = req.body.hospitalId;
+            const patientId = req.body.patientId;
+            // Call your function to fetch the case from the database
+            const caseData = JSON.parse(JSON.stringify(yield (0, requestQueries_1.fetchCase)(hospitalId, patientId)));
+            if (caseData) {
+                yield (0, requestQueries_1.setRejected)(hospitalId, patientId);
+                res.status(200).json({
+                    message: "case rejected",
+                });
             }
-            catch (error) {
-                console.error("Error accepting user case:", error);
-                return res.status(500).json({ error: "Internal server error" });
+            else {
+                return res.status(404).json({ error: "Case not found" });
             }
         });
     }

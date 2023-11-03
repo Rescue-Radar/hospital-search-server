@@ -19,34 +19,34 @@ export const fetchHospitals = async () => {
 	return result;
 };
 
-export const fetchCase = async (hospitalId: string, userId: string) => {
+export const fetchCase = async (hospitalId: string, patientId: string) => {
 	const getCaseQuery =
-		"SELECT * FROM public.ticket_issued WHERE hospitalId = $1 AND patientId = $2";
+		`SELECT * FROM public.ticket_issued WHERE "hospitalId" = $1 AND "patientId" = $2`;
 
-	const result = await pool.query(getCaseQuery, [hospitalId, userId]);
+	const result = await pool.query(getCaseQuery, [hospitalId, patientId]);
 	return result;
 };
 
 export const setStatus = async (patientId: string) => {
 	const setStatusQuery =
-		"UPDATE public.ticket_issued SET status=true WHERE patientId = $1";
+		`UPDATE public.ticket_issued SET status=true WHERE "patientId" = $1`;
 
 	await pool.query(setStatusQuery, [patientId]);
 };
 
-export const setAccepted = async (hospitalId: string, userId: string) => {
+export const setAccepted = async (hospitalId: string, patientId: string) => {
 	const acceptCaseQuery =
-		"UPDATE public.ticket_issued SET acceptCase=true,rejectCase=false WHERE  hospitalId = $1 AND patientId = $2";
+		`UPDATE public.ticket_issued SET "acceptCase" = true WHERE  "hospitalId" = $1 AND "patientId" = $2`;
 
-	const result = await pool.query(acceptCaseQuery, [hospitalId, userId]);
+	const result = await pool.query(acceptCaseQuery, [hospitalId, patientId]);
 	return result;
 };
 
-export const setRejected = async (hospitalId: string, userId: string) => {
+export const setRejected = async (hospitalId: string, patientId: string) => {
 	const rejectCaseQuery =
-		"UPDATE public.ticket_issued SET acceptCase=false,rejectCase=true WHERE  hospitalId = $1 AND patientId = $2";
+		`UPDATE public.ticket_issued SET "rejectCase" = true WHERE  "hospitalId" = $1 AND "patientId" = $2`;
 
-	const result = await pool.query(rejectCaseQuery, [hospitalId, userId]);
+	const result = await pool.query(rejectCaseQuery, [hospitalId, patientId]);
 	return result;
 };
 

@@ -143,6 +143,7 @@ function authenticateHospital(req, res, next) {
                     console.log("hospital payload->", payload);
                     if (payload) {
                         const id = payload.userId;
+                        console.log(id);
                         const result = yield (0, requestQueries_1.isExistingHospital)(id);
                         const user = result.rows[0];
                         if (user) {
