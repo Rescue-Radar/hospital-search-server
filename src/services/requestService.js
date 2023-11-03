@@ -84,6 +84,65 @@ class RequestService {
             });
             findHospitals();
         });
+        this.acceptUserCase = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            if (!req.body || !req.body.hospitalId || !req.body.userId) {
+                return res.status(400).json({
+                    error: '"UserId" and "HospitalId" are required!',
+                });
+            }
+            try {
+                const hospitalId = req.body.hospitalId;
+                const userId = req.body.userId;
+                // Call your function to fetch the case from the database
+                const caseData = JSON.parse(JSON.stringify(yield (0, requestQueries_1.fetchCase)(hospitalId, userId)));
+                if (caseData) {
+                    if (caseData.status) {
+                        return res.status(404).json({
+                            error: "Case already accepted",
+                        });
+                    }
+                    yield (0, requestQueries_1.setStatus)(userId);
+                    yield (0, requestQueries_1.setAccepted)(hospitalId, userId);
+                    res.status(200).json({
+                        message: "case accepted",
+                        caseDetails: caseData,
+                    });
+                }
+                else {
+                    return res.status(404).json({ error: "Case not found" });
+                }
+            }
+            catch (error) {
+                console.error("Error accepting user case:", error);
+                return res.status(500).json({ error: "Internal server error" });
+            }
+        });
+        this.rejectUserCase = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            if (!req.body || !req.body.hospitalId || !req.body.userId) {
+                return res.status(400).json({
+                    error: '"UserId" and "HospitalId" are required!',
+                });
+            }
+            try {
+                const hospitalId = req.body.hospitalId;
+                const userId = req.body.userId;
+                // Call your function to fetch the case from the database
+                const caseData = JSON.parse(JSON.stringify(yield (0, requestQueries_1.fetchCase)(hospitalId, userId)));
+                if (caseData) {
+                    yield (0, requestQueries_1.setRejected)(hospitalId, userId);
+                    res.status(200).json({
+                        message: "case rejected",
+                    });
+                }
+                else {
+                    return res.status(404).json({ error: "Case not found" });
+                }
+            }
+            catch (error) {
+                console.error("Error accepting user case:", error);
+                return res.status(500).json({ error: "Internal server error" });
+            }
+        });
     }
 }
 exports.RequestService = RequestService;

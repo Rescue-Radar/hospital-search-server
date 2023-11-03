@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAndAddUser = void 0;
+exports.protect = exports.findAndAddUser = void 0;
 const jwt = __importStar(require("jsonwebtoken"));
 const requestQueries_1 = require("../queries/requestQueries");
 const dotenv = __importStar(require("dotenv"));
@@ -87,3 +87,44 @@ function findAndAddUser(req, res, next) {
     });
 }
 exports.findAndAddUser = findAndAddUser;
+function protect(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const authorizationHeader = req.headers.authorization;
+            if (authorizationHeader) {
+                const token = authorizationHeader.split(" ")[1];
+                const secret = process.env.JWT_SECRET || "";
+                if (!secret) {
+                    throw new Error("JWT_SECRET is not defined");
+                }
+                else {
+                    try {
+                        const payload = jwt.verify(token, secret);
+                        if (payload) {
+                            next();
+                        }
+                    }
+                    catch (error) {
+                        console.log(error);
+                        if (error.name === "TokenExpiredError") {
+                            // Handle the expired JWT error
+                            res.status(401).json({ error: "JWT token has expired" });
+                        }
+                        else {
+                            // Handle other JWT verification errors
+                            res.status(401).json({ error: "JWT verification failed" });
+                        }
+                    }
+                }
+            }
+            else {
+                res.status(401).json({ error: "LogIn to access" });
+            }
+        }
+        catch (error) {
+            // Handle other errors
+            res.status(401).json({ error: "Internal server Error" });
+        }
+    });
+}
+exports.protect = protect;
