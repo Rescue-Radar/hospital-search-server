@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.protect = exports.findAndAddUser = void 0;
+exports.authenticateHospital = exports.protect = exports.findAndAddUser = void 0;
 const jwt = __importStar(require("jsonwebtoken"));
 const requestQueries_1 = require("../queries/requestQueries");
 const dotenv = __importStar(require("dotenv"));
@@ -128,3 +128,46 @@ function protect(req, res, next) {
     });
 }
 exports.protect = protect;
+function authenticateHospital(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const authorizationHeader = req.headers.authorization;
+            if (authorizationHeader) {
+                const token = authorizationHeader.split(" ")[1];
+                const secret = process.env.JWT_SECRET || "";
+                if (!secret) {
+                    throw new Error("JWT_SECRET is not defined");
+                }
+                else {
+                    const payload = jwt.verify(token, secret);
+                    console.log("hospital payload->", payload);
+                    if (payload) {
+                        const id = payload.userId;
+                        const result = yield (0, requestQueries_1.isExistingHospital)(id);
+                        const user = result.rows[0];
+                        if (user) {
+                            req.body.userId = id;
+                            next();
+                        }
+                        else {
+                            res.status(401).json("user Does not Exist");
+                        }
+                    }
+                    else {
+                        res.status(401).json("unauthorized");
+                    }
+                }
+            }
+            else {
+                res.status(401).json({ error: "LogIn to access" });
+            }
+        }
+        catch (error) {
+            // Handle the error and return a response
+            res
+                .status(401)
+                .json({ error: "Internal server Error", errors: error.message });
+        }
+    });
+}
+exports.authenticateHospital = authenticateHospital;

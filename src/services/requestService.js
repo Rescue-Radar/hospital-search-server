@@ -37,6 +37,7 @@ const requestQueries_1 = require("../queries/requestQueries");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: `${__dirname}/.env` });
 function calculateDistance(lat1, lon1, lat2, lon2) {
+    // console.log("lat1->",lat1,"lon1->",lon1,"lat2->",lat2,"lon2->",lon2);
     const R = 6371; // Radius of the Earth in kilometers
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
@@ -55,8 +56,8 @@ function deg2rad(deg) {
 class RequestService {
     constructor() {
         this.searchHospitals = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            const { name, phoneNumber, latitude, longitude } = req.body;
-            const maxRadius = 100;
+            const { name, phoneNumber, latitude, longitude, userId } = req.body;
+            const maxRadius = 50;
             let radius = 5; // Starting search radius in kilometers
             let filteredHospitals;
             if (!latitude || !longitude || !maxRadius) {

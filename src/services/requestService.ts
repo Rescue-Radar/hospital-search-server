@@ -15,6 +15,7 @@ import {
 import { JwtPayload, user_request } from "../interfaces/requests.auth";
 import * as dotenv from "dotenv";
 dotenv.config({ path: `${__dirname}/.env` });
+import { v4 as uuidv4 } from "uuid";
 
 function calculateDistance(
 	lat1: number,
@@ -22,6 +23,7 @@ function calculateDistance(
 	lat2: number,
 	lon2: number
 ): number {
+	// console.log("lat1->",lat1,"lon1->",lon1,"lat2->",lat2,"lon2->",lon2);
 	const R = 6371; // Radius of the Earth in kilometers
 	const dLat = deg2rad(lat2 - lat1);
 	const dLon = deg2rad(lon2 - lon1);
@@ -47,8 +49,9 @@ export class RequestService {
 		res: Response,
 		next: NextFunction
 	) => {
-		const { name, phoneNumber, latitude, longitude }: user_request = req.body;
-		const maxRadius = 100;
+		const { name, phoneNumber, latitude, longitude, userId }: user_request =
+			req.body;
+		const maxRadius = 50;
 		let radius = 5; // Starting search radius in kilometers
 		let filteredHospitals;
 

@@ -8,6 +8,7 @@ export interface user_request {
 	phoneNumber: number;
 	latitude: location["latitude"];
 	longitude: location["longitude"];
+	userId: string;
 }
 
 export interface JwtPayload {
