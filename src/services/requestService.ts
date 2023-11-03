@@ -60,7 +60,9 @@ export class RequestService {
 	  filteredHospitals.forEach(async(element) => {
 		const id = uuidv4();
 		const timeStampe = new Date().toLocaleString();
-		const response = await insertIntoTicketIssue(id,name,phoneNumber,element.id,userId,false,timeStampe,latitude,longitude);
+    const acceptCase = false;
+    const rejectCase = false;
+		const response = await insertIntoTicketIssue(id,name,phoneNumber,element.id,userId,false,timeStampe,latitude,longitude,acceptCase,rejectCase);
 	  });
 
 	  
@@ -80,7 +82,7 @@ export class RequestService {
 		res.json({ hospitals: filteredHospitals });
 	  }
 	
-    
+
 
 
     };

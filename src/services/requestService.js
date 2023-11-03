@@ -76,7 +76,9 @@ class RequestService {
                 filteredHospitals.forEach((element) => __awaiter(this, void 0, void 0, function* () {
                     const id = (0, uuid_1.v4)();
                     const timeStampe = new Date().toLocaleString();
-                    const response = yield (0, requestQueries_1.insertIntoTicketIssue)(id, name, phoneNumber, element.id, userId, false, timeStampe, latitude, longitude);
+                    const acceptCase = false;
+                    const rejectCase = false;
+                    const response = yield (0, requestQueries_1.insertIntoTicketIssue)(id, name, phoneNumber, element.id, userId, false, timeStampe, latitude, longitude, acceptCase, rejectCase);
                 }));
                 //   console.log(filteredHospitals.length,"filtered->",filteredHospitals);
                 if (filteredHospitals.length === 0 && radius >= maxRadius) {

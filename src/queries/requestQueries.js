@@ -32,10 +32,10 @@ const fetchHospitals = () => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 exports.fetchHospitals = fetchHospitals;
-const insertIntoTicketIssue = (id, name, phoneNumber, hospitalId, userId, status, timeStampe, latitude, longitude) => __awaiter(void 0, void 0, void 0, function* () {
-    const insertIntoTicketIssueQuery = `INSERT INTO public.ticket_issued (id,name,"phoneNumber","hospitalId","patientId",status,"createdAt",latitude,longitude) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) on conflict ("hospitalId","patientId") 
+const insertIntoTicketIssue = (id, name, phoneNumber, hospitalId, userId, status, timeStampe, latitude, longitude, acceptCase, rejectCase) => __awaiter(void 0, void 0, void 0, function* () {
+    const insertIntoTicketIssueQuery = `INSERT INTO public.ticket_issued (id,name,"phoneNumber","hospitalId","patientId",status,"createdAt",latitude,longitude,"acceptCase","rejectCase") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) on conflict ("hospitalId","patientId") 
 	do nothing RETURNING *;`;
-    const result = yield db_config_1.default.query(insertIntoTicketIssueQuery, [id, name, phoneNumber, hospitalId, userId, status, timeStampe, latitude, longitude]);
+    const result = yield db_config_1.default.query(insertIntoTicketIssueQuery, [id, name, phoneNumber, hospitalId, userId, status, timeStampe, latitude, longitude, acceptCase, rejectCase]);
     return result;
 });
 exports.insertIntoTicketIssue = insertIntoTicketIssue;

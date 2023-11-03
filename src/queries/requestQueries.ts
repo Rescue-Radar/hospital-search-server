@@ -20,11 +20,11 @@ export const fetchHospitals = async () => {
 };
 
 
-export const insertIntoTicketIssue = async (id:string ,name:string,phoneNumber:number, hospitalId: string ,userId: string, status:boolean,timeStampe:string,latitude:number,longitude:number) => {
-	const insertIntoTicketIssueQuery = `INSERT INTO public.ticket_issued (id,name,"phoneNumber","hospitalId","patientId",status,"createdAt",latitude,longitude) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) on conflict ("hospitalId","patientId") 
+export const insertIntoTicketIssue = async (id:string ,name:string,phoneNumber:number, hospitalId: string ,userId: string, status:boolean,timeStampe:string,latitude:number,longitude:number,acceptCase:boolean,rejectCase:boolean) => {
+	const insertIntoTicketIssueQuery = `INSERT INTO public.ticket_issued (id,name,"phoneNumber","hospitalId","patientId",status,"createdAt",latitude,longitude,"acceptCase","rejectCase") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) on conflict ("hospitalId","patientId") 
 	do nothing RETURNING *;`;
 
-	const result = await pool.query(insertIntoTicketIssueQuery, [id,name,phoneNumber, hospitalId,userId,status,timeStampe,latitude,longitude]);
+	const result = await pool.query(insertIntoTicketIssueQuery, [id,name,phoneNumber, hospitalId,userId,status,timeStampe,latitude,longitude,acceptCase,rejectCase]);
 	return result;
 }
 
